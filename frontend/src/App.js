@@ -1,23 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import axios from "axios";
+
+const getLocation = async () => {
+  navigator.geolocation
+    ? navigator.geolocation.getCurrentPosition((position) => {
+        axios
+          .post("http://localhost:5050/api/v1/location", {
+            coordinates: position.coords,
+            timestamp: position.timestamp,
+          })
+          .then((res) => console.log(res.data))
+          .catch((err) => console.log(err));
+      })
+    : console.log("Geolocation is not supported by this browser.");
+};
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <button onClick={getLocation}>get location</button>
     </div>
   );
 }
